@@ -41,20 +41,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(500).json({ error: 'Groq API key not configured' });
     }
 
-    const prompt = `Given the keyword: "${keywords.trim()}"
+    const prompt = `Generate 5 short phrases (around 10 words each) from the artist "${keywords.trim()}".
 
-Generate 5 passphrases that:
-- Are 5 to 8 words long
-- Use natural, everyday English
-- Words are lowercase and space-separated
-- Do not include punctuation or quotation marks
-- Are memorable and easy to type
-- Include the keyword or related words when possible
-
-Return only the 5 passphrases, one per line, without numbering or additional text.`;
-
-    console.log('Sending request to Groq API...');
+    Requirements:
+    - Use ACTUAL CONSECUTIVE WORDS from real song lyrics
+    - Do NOT invent or modify lyrics
+    - Do NOT mix words from different parts of songs
+    - Each phrase must be exactly as it appears in the original song
+    - Eliminate duplicates
     
+    RESPONSE FORMAT: Return ONLY the phrases, one per line, with NO explanatory text, NO introductions, NO headers.
+    
+    Example format:
+    I stay out too late
+    Got a long list ex lovers
+    Shake it off shake it
+    
+    If you're not certain about exact lyrics, don't guess.`;
+    
+    // Even more conservative settings
     const chatCompletion = await groq.chat.completions.create({
       messages: [
         {
@@ -62,11 +67,10 @@ Return only the 5 passphrases, one per line, without numbering or additional tex
           content: prompt,
         },
       ],
-    //   model: 'mixtral-8x7b-32768',
-      model: 'mistral-saba-24b',
-      temperature: 0.8,
-      max_tokens: 500,
-      top_p: 1,
+      model: 'llama-3.1-8b-instant', // Larger model for better factual accuracy
+      temperature: 0.1, // Very low for maximum accuracy
+      max_tokens: 200,
+      top_p: 0.9,
       stream: false,
     });
 
@@ -98,7 +102,7 @@ Return only the 5 passphrases, one per line, without numbering or additional tex
       processed = processed.replace(/["""'']/g, '');
       
       // Remove any numbering (e.g., "1. " or "1) ")
-      processed = processed.replace(/^\d+[.\)\-\s]+/, '');
+      processed = processed.replace(/^\d+[.)\-\s]+/, '');
       
       // Ensure first letter is capitalized and rest are lowercase
       processed = processed.charAt(0).toUpperCase() + processed.slice(1).toLowerCase();

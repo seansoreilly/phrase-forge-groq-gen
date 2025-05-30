@@ -83,15 +83,15 @@ const Index = () => {
         {/* Header */}
         <div className="text-center mb-8 pt-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
-            Path Passphrase Generator
+            Music Passphrases
           </h1>
           <p className="text-gray-600 text-lg">
-            Generate memorable passphrases using AI
+            Generate music passphrases using AI
           </p>
         </div>
 
         {/* Info Banner */}
-        <Card className="mb-6 border-green-200 bg-green-50/50">
+        {/* <Card className="mb-6 border-green-200 bg-green-50/50">
           <CardContent className="p-4">
             <div className="flex items-start gap-3">
               <AlertCircle className="h-5 w-5 text-green-600 mt-0.5 shrink-0" />
@@ -106,7 +106,7 @@ const Index = () => {
               </div>
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
 
         {/* Input Section */}
         <Card className="mb-8 shadow-lg border-0 bg-white/70 backdrop-blur-sm">
@@ -118,7 +118,7 @@ const Index = () => {
                   htmlFor="keywords"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Keywords
+                  Enter music artist
                 </Label>
                 <Input
                   id="keywords"
