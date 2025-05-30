@@ -1,16 +1,15 @@
-
-import { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { Loader2, Copy, Check, AlertCircle } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
-import { generatePassphrases } from '@/api/generate';
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Loader2, Copy, Check, AlertCircle } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { generatePassphrases } from "@/api/generate";
 
 const Index = () => {
-  const [keywords, setKeywords] = useState('');
+  const [keywords, setKeywords] = useState("");
   const [addNumber, setAddNumber] = useState(false);
   const [addSpecialChar, setAddSpecialChar] = useState(false);
   const [passphrases, setPassphrases] = useState<string[]>([]);
@@ -42,7 +41,7 @@ const Index = () => {
         description: "Generated 5 new passphrases",
       });
     } catch (error) {
-      console.error('Error generating passphrases:', error);
+      console.error("Error generating passphrases:", error);
       toast({
         title: "Error",
         description: "Failed to generate passphrases. Please try again.",
@@ -63,7 +62,7 @@ const Index = () => {
         description: "Passphrase copied to clipboard",
       });
     } catch (error) {
-      console.error('Failed to copy:', error);
+      console.error("Failed to copy:", error);
       toast({
         title: "Error",
         description: "Failed to copy to clipboard",
@@ -73,7 +72,7 @@ const Index = () => {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !loading) {
+    if (e.key === "Enter" && !loading) {
       handleGeneratePassphrases();
     }
   };
@@ -92,15 +91,17 @@ const Index = () => {
         </div>
 
         {/* Info Banner */}
-        <Card className="mb-6 border-blue-200 bg-blue-50/50">
+        <Card className="mb-6 border-green-200 bg-green-50/50">
           <CardContent className="p-4">
             <div className="flex items-start gap-3">
-              <AlertCircle className="h-5 w-5 text-blue-600 mt-0.5 shrink-0" />
-              <div className="text-sm text-blue-800">
-                <p className="font-medium mb-1">Demo Mode</p>
+              <AlertCircle className="h-5 w-5 text-green-600 mt-0.5 shrink-0" />
+              <div className="text-sm text-green-800">
+                <p className="font-medium mb-1">Groq API Integration</p>
                 <p>
-                  This is currently using mock data. To use the real Groq API, connect to Supabase 
-                  and store your GROQ_API_KEY in Supabase secrets, then implement the API call in a Supabase Edge Function.
+                  This application now uses the Groq API to generate
+                  passphrases. To use the real API, add your GROQ_API_KEY to
+                  your Vercel environment variables. Falls back to mock data if
+                  API is unavailable.
                 </p>
               </div>
             </div>
@@ -113,7 +114,10 @@ const Index = () => {
             <div className="space-y-6">
               {/* Keywords Input */}
               <div className="space-y-2">
-                <Label htmlFor="keywords" className="text-sm font-medium text-gray-700">
+                <Label
+                  htmlFor="keywords"
+                  className="text-sm font-medium text-gray-700"
+                >
                   Keywords
                 </Label>
                 <Input
@@ -136,7 +140,10 @@ const Index = () => {
                     onCheckedChange={setAddNumber}
                     disabled={loading}
                   />
-                  <Label htmlFor="add-number" className="text-sm font-medium text-gray-700">
+                  <Label
+                    htmlFor="add-number"
+                    className="text-sm font-medium text-gray-700"
+                  >
                     Add number (e.g., 42)
                   </Label>
                 </div>
@@ -148,7 +155,10 @@ const Index = () => {
                     onCheckedChange={setAddSpecialChar}
                     disabled={loading}
                   />
-                  <Label htmlFor="add-special" className="text-sm font-medium text-gray-700">
+                  <Label
+                    htmlFor="add-special"
+                    className="text-sm font-medium text-gray-700"
+                  >
                     Add special character (e.g., !)
                   </Label>
                 </div>
@@ -166,7 +176,7 @@ const Index = () => {
                     Generating...
                   </>
                 ) : (
-                  'Generate Passphrases'
+                  "Generate Passphrases"
                 )}
               </Button>
             </div>
@@ -218,7 +228,9 @@ const Index = () => {
             <CardContent className="p-12 text-center">
               <div className="text-gray-500">
                 <p className="text-lg mb-2">No passphrases generated yet</p>
-                <p className="text-sm">Enter keywords above and click "Generate Passphrases"</p>
+                <p className="text-sm">
+                  Enter keywords above and click "Generate Passphrases"
+                </p>
               </div>
             </CardContent>
           </Card>
