@@ -41,22 +41,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(500).json({ error: 'Groq API key not configured' });
     }
 
-    const prompt = `Generate 5 short phrases (around 10 words each) from the artist "${keywords.trim()}".
+    const prompt = `Generate 5 unique short phrases (minimum 4 words, maximum 10 words each) from the artist "${keywords.trim()}".
 
     Requirements:
     - Use ACTUAL CONSECUTIVE WORDS from real song lyrics
     - Do NOT invent or modify lyrics
     - Do NOT mix words from different parts of songs
+    - Do NOT provide duplicates
     - Each phrase must be exactly as it appears in the original song
-    - Eliminate duplicates
     
     RESPONSE FORMAT: Return ONLY the phrases, one per line, with NO explanatory text, NO introductions, NO headers.
-    
-    Example format:
-    I stay out too late
-    Got a long list ex lovers
-    Shake it off shake it
-    
+      
     If you're not certain about exact lyrics, don't guess.`;
     
     // Even more conservative settings
@@ -88,6 +83,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .split('\n')
       .map(line => line.trim())
       .filter(line => line.length > 0)
+      .filter((phrase, index, self) => self.indexOf(phrase) === index)
       .slice(0, 5); // Ensure we only take 5 passphrases
 
     if (rawPassphrases.length === 0) {
