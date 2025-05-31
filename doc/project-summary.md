@@ -1,12 +1,12 @@
-# Phrase Forge - Groq Passphrase Generator
+# Music Passphrase - AI Music Artist Passphrase Generator
 
 ## 📋 Project Overview
 
-**Phrase Forge** is a modern web application built to generate secure, memorable passphrases using AI technology. The project leverages the Groq API (currently with mock implementation) to create human-readable passphrases based on user-provided keywords.
+**Music Passphrase** is a modern web application built to generate secure, memorable passphrases using AI technology. The project leverages the Groq API to create human-readable passphrases based on user-provided music artist names and keywords.
 
 ### 🎯 Core Functionality
 
-- **Keyword-based Generation**: Users input keywords to generate contextually relevant passphrases
+- **Music Artist-based Generation**: Users input music artist names to generate contextually relevant passphrases
 - **Customization Options**:
   - Toggle to add numbers to passphrases
   - Toggle to add special characters
@@ -44,7 +44,7 @@
 ## 📁 Project Structure
 
 ```
-phrase-forge-groq-gen/
+music-passphrase/
 ├── src/
 │   ├── api/                 # API integration layer
 │   │   └── generate.ts      # Passphrase generation logic
@@ -73,23 +73,24 @@ phrase-forge-groq-gen/
 - Form handling with validation
 - Toast notifications
 - Copy-to-clipboard functionality
-- Mock passphrase generation
+- Groq API integration for music artist-based passphrase generation
 - Vercel deployment configuration
 
 ### 🚧 Development Status
 
-- **API Integration**: Currently using mock implementation
+- **API Integration**: Groq API integrated for AI-powered passphrase generation
 - **Backend**: Configured for Supabase but not fully integrated
-- **Groq API**: Prepared for integration but using placeholder logic
+- **Groq API**: Live integration with fallback to mock data
 
-### 📝 Mock Implementation Notes
+### 📝 Implementation Notes
 
-The current implementation includes a mock passphrase generator in `src/api/generate.ts` that:
+The current implementation includes a robust passphrase generator that:
 
-- Simulates API delays (1.5s)
-- Generates placeholder passphrases
-- Includes comments showing planned Groq API integration
-- Handles error states and loading states
+- Uses Groq API for AI-powered generation based on music artists
+- Includes proper error handling and loading states
+- Generates music-themed passphrases
+- Handles API delays and rate limiting
+- Provides fallback mock generation if API fails
 
 ## 🚀 Deployment & Development
 
@@ -107,7 +108,7 @@ npm run preview    # Preview production build
 - **Platform**: Vercel
 - **Build Command**: `npm run build`
 - **Framework**: Vite (React)
-- **Domain**: Configurable via Lovable platform
+- **Domain**: musicpassphrase.com
 
 ## 🛠️ Technologies & Tools
 
@@ -155,7 +156,7 @@ npm run preview    # Preview production build
 
 ### Planned Integrations
 
-1. **Groq API Integration**: Replace mock with actual API calls
+1. **Enhanced Music Integration**: Artist-specific passphrase patterns
 2. **Supabase Backend**: User accounts, passphrase history
 3. **Advanced Options**: Passphrase length, complexity settings
 4. **Export Features**: Save passphrases to various formats
@@ -168,11 +169,12 @@ npm run preview    # Preview production build
 - Bulk generation capabilities
 - API rate limiting and usage tracking
 - Advanced customization options
+- Music genre-based generation
 
 ## 📚 Development Notes
 
-This project was created using the Lovable platform and follows modern React development practices. The codebase is well-structured with clear separation of concerns, comprehensive UI components, and a foundation ready for backend integration.
+This project was created using modern React development practices with a focus on music-themed passphrase generation. The codebase is well-structured with clear separation of concerns, comprehensive UI components, and robust AI integration.
 
-**Project ID**: 3df81076-619b-42e6-a2ea-52da049f61c9
-**Platform**: [Lovable.dev](https://lovable.dev)
+**Project**: Music Passphrase Generator
+**Platform**: [Vercel](https://vercel.com)
 **Repository**: Built for Git-based collaboration and deployment

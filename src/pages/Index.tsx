@@ -21,7 +21,7 @@ const Index = () => {
     if (!keywords.trim()) {
       toast({
         title: "Error",
-        description: "Please enter at least one keyword",
+        description: "Please enter a music artist name",
         variant: "destructive",
       });
       return;
@@ -38,7 +38,7 @@ const Index = () => {
       setPassphrases(newPassphrases);
       toast({
         title: "Success!",
-        description: "Generated 5 new passphrases",
+        description: "Generated passphrases",
       });
     } catch (error) {
       console.error("Error generating passphrases:", error);
@@ -83,10 +83,10 @@ const Index = () => {
         {/* Header */}
         <div className="text-center mb-8 pt-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
-            Music Passphrases
+            Music Passphrase
           </h1>
           <p className="text-gray-600 text-lg">
-            Generate music passphrases using AI
+            Generate secure passphrases from your favorite music artists with AI
           </p>
         </div>
 
@@ -118,14 +118,14 @@ const Index = () => {
                   htmlFor="keywords"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Enter music artist
+                  Enter music artist name
                 </Label>
                 <Input
                   id="keywords"
                   value={keywords}
                   onChange={(e) => setKeywords(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder="Enter keywords (e.g., Taylor Swift, coffee morning)"
+                  placeholder="Enter music artist (e.g., Taylor Swift, The Beatles)"
                   className="text-base h-12 border-gray-200 focus:border-purple-500 focus:ring-purple-500"
                   disabled={loading}
                 />
@@ -176,7 +176,7 @@ const Index = () => {
                     Generating...
                   </>
                 ) : (
-                  "Generate Passphrases"
+                  "Generate Music Passphrases"
                 )}
               </Button>
             </div>
@@ -187,7 +187,7 @@ const Index = () => {
         {passphrases.length > 0 && (
           <div className="space-y-4">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-              Generated Passphrases
+              Generated Music Passphrases
             </h2>
             <div className="grid gap-3">
               {passphrases.map((passphrase, index) => (
@@ -227,9 +227,12 @@ const Index = () => {
           <Card className="border-dashed border-2 border-gray-300 bg-white/50">
             <CardContent className="p-12 text-center">
               <div className="text-gray-500">
-                <p className="text-lg mb-2">No passphrases generated yet</p>
+                <p className="text-lg mb-2">
+                  No music passphrases generated yet
+                </p>
                 <p className="text-sm">
-                  Enter keywords above and click "Generate Passphrases"
+                  Enter a music artist name above and click "Generate Music
+                  Passphrases"
                 </p>
               </div>
             </CardContent>

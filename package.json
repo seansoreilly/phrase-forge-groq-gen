@@ -1,7 +1,22 @@
 {
-  "name": "vite_react_shadcn_ts",
+  "name": "music-passphrase",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "AI-powered music passphrase generator using your favorite artists",
+  "keywords": [
+    "passphrase",
+    "generator",
+    "music",
+    "AI",
+    "security",
+    "password"
+  ],
+  "author": "Music Passphrase",
+  "homepage": "https://musicpassphrase.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seansoreilly/music-passphrase"
+  },
   "type": "module",
   "module": "ES6",
   "scripts": {

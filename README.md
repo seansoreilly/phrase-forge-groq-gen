@@ -1,12 +1,12 @@
-# Phrase Forge - Groq Passphrase Generator
+# Music Passphrase - AI Music Artist Passphrase Generator
 
 ## 📋 Project Overview
 
-**Phrase Forge** is a modern web application built to generate secure, memorable passphrases using AI technology. This project leverages the Groq API to create human-readable passphrases based on user-provided keywords.
+**Music Passphrase** is a modern web application built to generate secure, memorable passphrases using AI technology. This project leverages the Groq API to create human-readable passphrases based on user-provided music artist names and keywords.
 
 ### 🎯 Core Functionality
 
-- **Keyword-based Generation**: Users input keywords to generate contextually relevant passphrases.
+- **Music Artist-based Generation**: Users input music artist names to generate contextually relevant passphrases.
 - **Customization Options**:
   - Toggle to add numbers to passphrases.
   - Toggle to add special characters.
@@ -30,7 +30,7 @@
 ## 📁 Project Structure
 
 ```
-phrase-forge-groq-gen/
+music-passphrase/
 ├── src/
 │   ├── api/                 # API integration layer (Vercel serverless functions)
 │   │   └── generate-passphrases.ts # Passphrase generation logic using Groq API
@@ -93,7 +93,7 @@ phrase-forge-groq-gen/
 
     ```bash
     git clone <YOUR_GIT_REPOSITORY_URL>
-    cd phrase-forge-groq-gen
+    cd music-passphrase
     ```
 
 2.  **Install dependencies**:
@@ -144,7 +144,7 @@ The API endpoint `api/generate-passphrases.ts` typically accepts POST requests w
 
 ```json
 {
-  "keywords": "your keywords here",
+  "keywords": "your music artist here",
   "addNumber": true,
   "addSpecialChar": false
 }
@@ -188,12 +188,10 @@ This project is configured for deployment on Vercel.
 
 Contributions are welcome! Please feel free to submit pull requests or open issues.
 
-(Consider adding guidelines for commit messages, code style, etc., if applicable.)
-
 ## 📄 License
 
-This project is likely under a standard open-source license (e.g., MIT). Please add a `LICENSE` file to the repository.
+This project is under the MIT License.
 
 ---
 
-_This README was generated based on project documentation and codebase analysis._
+_Generate secure, memorable passphrases from your favorite music artists with AI._
