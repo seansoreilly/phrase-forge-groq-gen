@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,12 +10,52 @@ import { generatePassphrases } from "@/api/generate";
 
 const Index = () => {
   const [keywords, setKeywords] = useState("");
-  const [addNumber, setAddNumber] = useState(false);
-  const [addSpecialChar, setAddSpecialChar] = useState(false);
+  const [addNumber, setAddNumber] = useState(true);
+  const [addSpecialChar, setAddSpecialChar] = useState(true);
   const [passphrases, setPassphrases] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const { toast } = useToast();
+
+  // Load saved states from localStorage on component mount
+  useEffect(() => {
+    const savedKeywords = localStorage.getItem("musicPassphrase_keywords");
+    const savedAddNumber = localStorage.getItem("musicPassphrase_addNumber");
+    const savedAddSpecialChar = localStorage.getItem(
+      "musicPassphrase_addSpecialChar"
+    );
+
+    if (savedKeywords !== null) {
+      setKeywords(savedKeywords);
+    }
+    if (savedAddNumber !== null) {
+      setAddNumber(JSON.parse(savedAddNumber));
+    }
+    if (savedAddSpecialChar !== null) {
+      setAddSpecialChar(JSON.parse(savedAddSpecialChar));
+    }
+  }, []);
+
+  // Save keywords to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("musicPassphrase_keywords", keywords);
+  }, [keywords]);
+
+  // Save addNumber to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem(
+      "musicPassphrase_addNumber",
+      JSON.stringify(addNumber)
+    );
+  }, [addNumber]);
+
+  // Save addSpecialChar to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem(
+      "musicPassphrase_addSpecialChar",
+      JSON.stringify(addSpecialChar)
+    );
+  }, [addSpecialChar]);
 
   const handleGeneratePassphrases = async () => {
     if (!keywords.trim()) {
