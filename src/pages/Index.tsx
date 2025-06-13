@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Loader2, Copy, Check, AlertCircle } from "lucide-react";
+import { Loader2, Copy, Check, AlertCircle, Edit2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { generatePassphrases } from "@/api/generate";
 
@@ -14,6 +14,8 @@ const Index = () => {
   const [addSpecialChar, setAddSpecialChar] = useState(true);
   const [includeSpaces, setIncludeSpaces] = useState(true);
   const [passphrases, setPassphrases] = useState<string[]>([]);
+  const [editedPassphrases, setEditedPassphrases] = useState<string[]>([]);
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const { toast } = useToast();
@@ -96,6 +98,8 @@ const Index = () => {
       });
 
       setPassphrases(newPassphrases);
+      setEditedPassphrases([...newPassphrases]); // Initialize edited passphrases
+      setEditingIndex(null); // Clear any editing state
       toast({
         title: "Success!",
         description: "Generated passphrases",
@@ -128,6 +132,52 @@ const Index = () => {
         description: "Failed to copy to clipboard",
         variant: "destructive",
       });
+    }
+  };
+
+  const handleEditStart = (index: number) => {
+    setEditingIndex(index);
+  };
+
+  const handleEditSave = (value: string, index: number) => {
+    if (value.trim() === "") {
+      toast({
+        title: "Error",
+        description: "Passphrase cannot be empty",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const newEditedPassphrases = [...editedPassphrases];
+    newEditedPassphrases[index] = value.trim();
+    setEditedPassphrases(newEditedPassphrases);
+    setEditingIndex(null);
+
+    toast({
+      title: "Saved!",
+      description: "Passphrase has been updated",
+    });
+  };
+
+  const handleEditFinish = (value: string, index: number) => {
+    if (value.trim() !== "") {
+      const newEditedPassphrases = [...editedPassphrases];
+      newEditedPassphrases[index] = value.trim();
+      setEditedPassphrases(newEditedPassphrases);
+    }
+    setEditingIndex(null);
+  };
+
+  const handleEditKeyPress = (
+    e: React.KeyboardEvent,
+    index: number,
+    value: string
+  ) => {
+    if (e.key === "Enter") {
+      handleEditSave(value, index);
+    } else if (e.key === "Escape") {
+      setEditingIndex(null);
     }
   };
 
@@ -268,27 +318,76 @@ const Index = () => {
               {passphrases.map((passphrase, index) => (
                 <Card
                   key={index}
-                  className="shadow-md border-0 bg-white/80 backdrop-blur-sm hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5"
+                  className={`shadow-md border-0 bg-white/80 backdrop-blur-sm hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5 ${
+                    editingIndex === index
+                      ? "ring-2 ring-purple-300 bg-purple-50/30"
+                      : ""
+                  }`}
                 >
                   <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1 mr-4">
-                        <p className="text-lg font-mono text-gray-800 break-all">
-                          {passphrase}
-                        </p>
-                      </div>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => copyToClipboard(passphrase, index)}
-                        className="shrink-0 h-9 w-9 p-0 border-gray-200 hover:border-purple-300 hover:bg-purple-50"
-                      >
-                        {copiedIndex === index ? (
-                          <Check className="h-4 w-4 text-green-600" />
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex-1">
+                        {editingIndex === index ? (
+                          <Input
+                            defaultValue={editedPassphrases[index]}
+                            onKeyDown={(e) => {
+                              const target = e.target as HTMLInputElement;
+                              handleEditKeyPress(e, index, target.value);
+                            }}
+                            onBlur={(e) =>
+                              handleEditFinish(e.target.value, index)
+                            }
+                            className="text-lg font-mono border-purple-300 focus:border-purple-500 focus:ring-purple-500 bg-white"
+                            placeholder="Enter your passphrase..."
+                            autoFocus
+                          />
                         ) : (
-                          <Copy className="h-4 w-4 text-gray-600" />
+                          <div
+                            className="group cursor-text hover:bg-gray-50/50 rounded px-2 py-1 -mx-2 -my-1 transition-colors duration-150"
+                            onClick={() => handleEditStart(index)}
+                          >
+                            <p className="text-lg font-mono text-gray-800 break-all group-hover:text-gray-900">
+                              {editedPassphrases[index]}
+                            </p>
+                            <div className="flex items-center gap-1 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+                              <Edit2 className="h-3 w-3 text-gray-500" />
+                              <span className="text-xs text-gray-500">
+                                Click to edit
+                              </span>
+                            </div>
+                          </div>
                         )}
-                      </Button>
+                      </div>
+                      <div className="flex gap-2">
+                        {editingIndex !== index && (
+                          <>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleEditStart(index)}
+                              className="shrink-0 h-9 w-9 p-0 border-gray-200 hover:border-blue-300 hover:bg-blue-50"
+                              title="Edit passphrase"
+                            >
+                              <Edit2 className="h-4 w-4 text-gray-600" />
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() =>
+                                copyToClipboard(editedPassphrases[index], index)
+                              }
+                              className="shrink-0 h-9 w-9 p-0 border-gray-200 hover:border-purple-300 hover:bg-purple-50"
+                              title="Copy to clipboard"
+                            >
+                              {copiedIndex === index ? (
+                                <Check className="h-4 w-4 text-green-600" />
+                              ) : (
+                                <Copy className="h-4 w-4 text-gray-600" />
+                              )}
+                            </Button>
+                          </>
+                        )}
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
