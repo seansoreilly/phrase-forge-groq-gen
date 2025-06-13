@@ -7,6 +7,7 @@ import { Switch } from "@/components/ui/switch";
 import { Loader2, Copy, Check, AlertCircle, Edit2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { generatePassphrases } from "@/api/generate";
+import { BuildInfo, DevelopmentBuildInfo } from "@/components/BuildInfo";
 
 const Index = () => {
   const [keywords, setKeywords] = useState("");
@@ -412,7 +413,21 @@ const Index = () => {
             </CardContent>
           </Card>
         )}
+
+        {/* Footer with Build Info */}
+        <footer className="mt-16 pt-8 border-t border-gray-200">
+          <div className="text-center space-y-2">
+            <p className="text-sm text-gray-600">
+              Music Passphrase Generator - Secure passphrases from your favorite
+              artists
+            </p>
+            <BuildInfo variant="minimal" className="justify-center flex" />
+          </div>
+        </footer>
       </div>
+
+      {/* Development Build Info Overlay */}
+      <DevelopmentBuildInfo />
     </div>
   );
 };

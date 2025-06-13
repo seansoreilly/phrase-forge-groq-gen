@@ -23,8 +23,12 @@
     "dev": "vite",
     "build": "vite build",
     "build:dev": "vite build --mode development",
+    "build:production": "npm run lint && vite build --mode production",
+    "build:vercel": "vite build --mode production",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "health": "node -e \"import('./dist/api/health.js').then(h => h.getHealthStatus().then(console.log))\"",
+    "version": "node -e \"console.log(require('./package.json').version)\""
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
