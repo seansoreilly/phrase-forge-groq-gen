@@ -4,6 +4,8 @@
 
 **Music Passphrase** is a modern web application built to generate secure, memorable passphrases using AI technology. This project leverages the Groq API to create human-readable passphrases based on user-provided music artist names and keywords.
 
+This project is enhanced with **Task Master AI** for intelligent project management and development workflow optimization.
+
 ### 🎯 Core Functionality
 
 - **Music Artist-based Generation**: Users input music artist names to generate contextually relevant passphrases.
@@ -26,14 +28,29 @@
 - **State Management**: React Hook Form + Zod validation
 - **HTTP Client**: TanStack React Query 5.56.2
 - **AI Integration**: Groq SDK
+- **Analytics**: Vercel Analytics
+- **Backend**: Vercel Serverless Functions
+
+### Development Tools
+
+- **AI-Powered Project Management**: Task Master AI for intelligent task planning and execution
+- **Code Generation**: Cursor AI integration for enhanced development workflow
+- **Advanced Linting**: ESLint with React-specific rules
+- **Type Safety**: Full TypeScript implementation with strict configuration
 
 ## 📁 Project Structure
 
 ```
 music-passphrase/
+├── .taskmaster/             # Task Master AI project management
+│   ├── config.json          # AI model configuration
+│   ├── tasks/               # Task definitions and tracking
+│   ├── reports/             # Complexity analysis reports
+│   ├── templates/           # Project templates and examples
+│   └── docs/                # Project documentation
 ├── src/
-│   ├── api/                 # API integration layer (Vercel serverless functions)
-│   │   └── generate-passphrases.ts # Passphrase generation logic using Groq API
+│   ├── api/                 # API integration layer
+│   │   └── generate.ts      # Passphrase generation logic
 │   ├── components/
 │   │   └── ui/              # shadcn/ui components
 │   ├── hooks/               # Custom React hooks
@@ -43,104 +60,129 @@ music-passphrase/
 │   │   └── NotFound.tsx     # 404 page
 │   ├── App.tsx              # Main app component
 │   └── main.tsx             # Application entry point
+├── api/                     # Vercel serverless functions
+│   └── generate-passphrases.ts # Backend API endpoint
 ├── public/                  # Static assets
 ├── doc/                     # Project documentation
 ├── .vercel/                 # Vercel deployment configuration and cache
-└── logs/                    # Application logs (if any)
+└── logs/                    # Application logs
 ```
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js & npm (or yarn/pnpm)
+- Node.js 18+ & npm (or yarn/pnpm)
 - A Groq API Key
 
-### Groq API Key Setup
+### Environment Setup
 
-1.  **Get a Groq API Key**:
+#### 1. Get a Groq API Key
 
-    - Go to [console.groq.com](https://console.groq.com)
-    - Sign up or log in.
-    - Navigate to the API Keys section.
-    - Create a new API key and copy it.
+- Go to [console.groq.com](https://console.groq.com)
+- Sign up or log in
+- Navigate to the API Keys section
+- Create a new API key and copy it
 
-2.  **Configure Environment Variables**:
+#### 2. Configure Environment Variables
 
-    - **For Local Development**:
-      Create a `.env` file (or `.env.local`) in the project root:
+Create a `.env` file in the project root:
 
-      ```env
-      VITE_GROQ_API_KEY=your_groq_api_key_here
-      ```
+```env
+# Groq API Configuration
+GROQ_API_KEY=your_groq_api_key_here
+VITE_GROQ_API_KEY=your_groq_api_key_here
 
-      _Note: Vite requires environment variables accessible to the client to be prefixed with `VITE_`.\_
+# Optional: Analytics
+VERCEL_ANALYTICS_ID=your_vercel_analytics_id
+```
 
-    - **For Vercel Deployment**:
+**For Vercel Deployment:**
 
-      1.  Go to your Vercel project dashboard.
-      2.  Navigate to Settings → Environment Variables.
-      3.  Add a new environment variable:
-          - **Name**: `VITE_GROQ_API_KEY` (or `GROQ_API_KEY` if used server-side only, see note below)
-          - **Value**: Your Groq API key
-          - **Environments**: Production, Preview, Development
-
-      _Important_: If the Groq API key is only used in a serverless function (e.g., in the `api/` directory for Vercel), you might name the environment variable `GROQ_API_KEY` directly without the `VITE_` prefix for Vercel environment variables. However, if any client-side code needs to be aware of or use this key (even indirectly), the `VITE_` prefix is necessary for local development with Vite. The `GROQ_SETUP.md` suggests the serverless function is `/api/generate-passphrases.ts`, so for Vercel, `GROQ_API_KEY` would be appropriate if the function reads it from `process.env`. For local Vite dev server, if the call is proxied or made directly from frontend, `VITE_GROQ_API_KEY` would be used and accessed via `import.meta.env.VITE_GROQ_API_KEY`. The current structure implies a Vercel serverless function.
+1. Go to your Vercel project dashboard
+2. Navigate to Settings → Environment Variables
+3. Add your environment variables for all environments (Production, Preview, Development)
 
 ### Development Setup
 
-1.  **Clone the repository**:
+1. **Clone the repository**:
 
-    ```bash
-    git clone <YOUR_GIT_REPOSITORY_URL>
-    cd music-passphrase
-    ```
+   ```bash
+   git clone https://github.com/seansoreilly/music-passphrase.git
+   cd music-passphrase
+   ```
 
-2.  **Install dependencies**:
+2. **Install dependencies**:
 
-    ```bash
-    npm install
-    # or
-    # yarn install
-    # or
-    # pnpm install
-    ```
+   ```bash
+   npm install
+   ```
 
-3.  **Run the development server**:
-    ```bash
-    npm run dev
-    ```
-    This will start the Vite development server, typically at `http://localhost:5173`.
+3. **Start the development server**:
+
+   ```bash
+   npm run dev
+   ```
+
+   The app will be available at `http://localhost:8080/` (or the port shown in your terminal).
 
 ### Available Scripts
 
-- `npm run dev`: Starts the development server.
-- `npm run build`: Builds the application for production.
-- `npm run build:dev`: Builds the application in development mode.
-- `npm run lint`: Lints the codebase using ESLint.
-- `npm run preview`: Serves the production build locally for preview.
+- `npm run dev`: Starts the development server
+- `npm run build`: Builds the application for production
+- `npm run build:dev`: Builds the application in development mode
+- `npm run lint`: Lints the codebase using ESLint
+- `npm run preview`: Serves the production build locally for preview
+
+## 🤖 AI-Powered Development
+
+This project utilizes advanced AI tools for enhanced development:
+
+### Task Master AI Integration
+
+- **Intelligent Task Planning**: Automated task breakdown and dependency management
+- **Complexity Analysis**: AI-powered assessment of task complexity
+- **Progress Tracking**: Automated progress monitoring and reporting
+- **Research-Backed Development**: Integration with AI research capabilities
+
+To work with Task Master:
+
+- Task definitions are stored in `.taskmaster/tasks/`
+- Use the integrated AI tools for task management
+- Configuration is managed through `.taskmaster/config.json`
+
+### Development Workflow
+
+1. **Task Planning**: AI generates and organizes development tasks
+2. **Implementation**: Code generation with AI assistance
+3. **Testing**: Automated testing strategy generation
+4. **Documentation**: AI-assisted documentation updates
 
 ## 🔧 Current Implementation Status
 
 ### ✅ Completed Features
 
-- Modern React application with TypeScript.
-- Comprehensive UI component library from shadcn/ui.
-- Responsive design implemented with Tailwind CSS.
-- Form handling and validation using React Hook Form and Zod.
-- Toast notifications for user feedback.
-- Copy-to-clipboard functionality for generated passphrases.
-- Vercel deployment configuration.
-- Integration with Groq API for passphrase generation (via Vercel serverless function).
-- Fallback to mock passphrase generation if the Groq API call fails or is not configured.
+- Modern React application with TypeScript
+- Comprehensive UI component library from shadcn/ui
+- Responsive design implemented with Tailwind CSS
+- Form handling and validation using React Hook Form and Zod
+- Toast notifications for user feedback
+- Copy-to-clipboard functionality for generated passphrases
+- Vercel deployment configuration
+- Integration with Groq API for passphrase generation
+- Fallback to mock passphrase generation if API fails
+- AI-powered project management with Task Master
+- Advanced development tooling integration
 
-### 🚧 API Integration Details
+### 🔌 API Integration Details
 
-- **API Endpoint**: A Vercel serverless function, likely located at `api/generate-passphrases.ts`, handles requests to the Groq API.
-- **AI Model**: The application is configured to use a model like Mixtral-8x7B-32768 for generating passphrases.
-- **Fallback Mechanism**: If the Groq API is unavailable or an error occurs, the system may provide mock/placeholder passphrases.
+**Endpoint**: `/api/generate-passphrases`
 
-The API endpoint `api/generate-passphrases.ts` typically accepts POST requests with a JSON body like:
+- **Method**: POST
+- **Model**: Mixtral-8x7B-32768 (via Groq)
+- **Fallback**: Mock generation on API failure
+
+**Request Format**:
 
 ```json
 {
@@ -150,43 +192,65 @@ The API endpoint `api/generate-passphrases.ts` typically accepts POST requests w
 }
 ```
 
-And returns:
+**Response Format**:
 
 ```json
 {
   "passphrases": [
-    "Passphrase one...",
-    "Passphrase two..."
+    "Artist-inspired-passphrase-1",
+    "Artist-inspired-passphrase-2"
     // ... up to 5 passphrases
   ],
-  "success": true // or false in case of an error
+  "success": true
 }
 ```
 
 ## 🚀 Deployment
 
-This project is configured for deployment on Vercel.
+This project is optimized for deployment on Vercel:
 
-1.  Ensure your Groq API key is set as an environment variable in your Vercel project settings (e.g., `GROQ_API_KEY`).
-2.  Connect your Git repository to Vercel.
-3.  Vercel will automatically build and deploy the project upon pushes to the main branch (or as configured).
-    - **Build Command**: `npm run build` (or `vite build`)
-    - **Output Directory**: `dist`
-    - **Framework Preset**: Vite
+1. **Environment Variables**: Set your `GROQ_API_KEY` in Vercel project settings
+2. **Automatic Deployment**: Connected to GitHub for automatic deployments
+3. **Build Configuration**:
+   - Build Command: `npm run build`
+   - Output Directory: `dist`
+   - Framework: Vite
 
 ## 🔮 Future Development
 
-### Planned Integrations & Enhancements
+### Planned Enhancements
 
-1.  **Supabase Backend**: Potential for user accounts, saving passphrase history, and more.
-2.  **Advanced Passphrase Options**: More granular control over passphrase length, complexity settings (e.g., number of words, specific character sets).
-3.  **Export Features**: Allow users to save generated passphrases to various formats (e.g., TXT, CSV).
-4.  **Passphrase Strength Indicator**: Visual feedback on the strength of generated passphrases.
-5.  **Enhanced Error Handling**: More specific user feedback for different API or generation errors.
+1. **Enhanced AI Features**:
+
+   - Multiple AI model support
+   - Advanced passphrase customization
+   - Intelligent strength analysis
+
+2. **User Experience**:
+
+   - User accounts and passphrase history
+   - Export functionality (TXT, CSV, JSON)
+   - Advanced customization options
+   - Passphrase strength visualization
+
+3. **Backend Improvements**:
+
+   - Supabase integration for data persistence
+   - Advanced error handling and logging
+   - API rate limiting and caching
+
+4. **Development Tools**:
+   - Automated testing suite
+   - Performance monitoring
+   - Advanced analytics integration
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit pull requests or open issues.
+Contributions are welcome! This project uses AI-assisted development:
+
+1. **Task Management**: Check `.taskmaster/tasks/` for current development tasks
+2. **Code Standards**: Follow the established TypeScript and React patterns
+3. **AI Integration**: Leverage the Task Master AI tools for planning and implementation
 
 ## 📄 License
 
@@ -194,4 +258,4 @@ This project is under the MIT License.
 
 ---
 
-_Generate secure, memorable passphrases from your favorite music artists with AI._
+_Generate secure, memorable passphrases from your favorite music artists with AI-powered intelligence._

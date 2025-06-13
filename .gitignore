@@ -123,8 +123,17 @@ storybook-static/
 # Sentry
 .sentryclirc
 
-# Added by Task Master AI
+# Development Tools & AI Assistants
+.cursor/
+.roo/
+.roomodes
+.windsurfrules
 dev-debug.log
+
+# Task Management (keep .taskmaster for project management)
+# Note: .taskmaster/ is intentionally not ignored as it contains project planning files
+
+# Added by Task Master AI
 .idea
 .vscode
 *.suo
