@@ -19,6 +19,7 @@ const Index = () => {
   const { toast } = useToast();
 
   // Load saved states from localStorage on component mount
+  // This ensures user preferences persist across browser sessions
   useEffect(() => {
     const savedKeywords = localStorage.getItem("musicPassphrase_keywords");
     const savedAddNumber = localStorage.getItem("musicPassphrase_addNumber");
@@ -29,9 +30,11 @@ const Index = () => {
       "musicPassphrase_includeSpaces"
     );
 
+    // Restore artist name input if previously saved
     if (savedKeywords !== null) {
       setKeywords(savedKeywords);
     }
+    // Restore toggle states (checking for null to handle first-time users)
     if (savedAddNumber !== null) {
       setAddNumber(JSON.parse(savedAddNumber));
     }
@@ -43,7 +46,8 @@ const Index = () => {
     }
   }, []);
 
-  // Save keywords to localStorage whenever it changes
+  // Save artist name (keywords) to localStorage whenever it changes
+  // This automatically persists user input across browser sessions
   useEffect(() => {
     localStorage.setItem("musicPassphrase_keywords", keywords);
   }, [keywords]);
