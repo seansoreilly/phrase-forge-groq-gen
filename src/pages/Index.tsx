@@ -416,18 +416,9 @@ const Index = () => {
 
         {/* Footer with Build Info */}
         <footer className="mt-16 pt-8 border-t border-gray-200">
-          <div className="text-center space-y-2">
-            <p className="text-sm text-gray-600">
-              Music Passphrase Generator - Secure passphrases from your favorite
-              artists
-            </p>
-            <BuildInfo variant="minimal" className="justify-center flex" />
-          </div>
+          <DevelopmentBuildInfo />
         </footer>
       </div>
-
-      {/* Development Build Info Overlay */}
-      <DevelopmentBuildInfo />
     </div>
   );
 };

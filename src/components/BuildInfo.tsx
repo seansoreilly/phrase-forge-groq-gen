@@ -48,10 +48,23 @@ export function DevelopmentBuildInfo() {
   }
 
   return (
-    <div className="fixed bottom-4 right-4 bg-black text-white p-2 rounded-md shadow-lg z-50">
-      <div className="text-xs font-mono">
-        <div>Commit: {buildInfo.commitHash}</div>
-        <div>Env: {buildInfo.environment}</div>
+    <div className="text-center space-y-2">
+      <div className="text-center">
+        <p className="text-sm text-gray-500">
+          Created by{" "}
+          <a
+            href="https://balddata.xyz/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-gray-700 underline"
+          >
+            Bald Data
+          </a>{" "}
+          • Build:{" "}
+          <span className="font-mono text-gray-600">
+            {buildInfo.commitHash || "unknown"}
+          </span>
+        </p>
       </div>
     </div>
   );
