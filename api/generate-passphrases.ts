@@ -42,14 +42,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(500).json({ error: 'Groq API key not configured' });
     }
 
-    const prompt = `Generate 5 unique short phrases (minimum 4 words, maximum 10 words each) from the artist "${keywords.trim()}".
+    const prompt = `Generate 5 unique short phrases (MINIMUM 4 words, maximum 10 words each) from the artist "${keywords.trim()}".
 
     Requirements:
-    - Use ACTUAL CONSECUTIVE WORDS from real song lyrics
-    - Do NOT invent or modify lyrics
-    - Do NOT mix words from different parts of songs
+    - Use ACTUAL CONSECUTIVE WORDS from published song titles
+    - Do NOT invent or modify titles
+    - Do NOT change the order of words
     - Do NOT provide duplicates
-    - Each phrase must be exactly as it appears in the original song
+    - Each phrase must be exactly as it appears in the original public song titles
     
     RESPONSE FORMAT: Return ONLY the phrases, one per line, with NO explanatory text, NO introductions, NO headers.
       
