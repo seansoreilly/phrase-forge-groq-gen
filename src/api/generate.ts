@@ -2,6 +2,7 @@ interface RequestBody {
   keywords: string;
   addNumber: boolean;
   addSpecialChar: boolean;
+  includeSpaces: boolean;
 }
 
 interface ApiResponse {
@@ -12,14 +13,14 @@ interface ApiResponse {
 }
 
 export async function generatePassphrases(requestBody: RequestBody): Promise<string[]> {
-  const { keywords, addNumber, addSpecialChar } = requestBody;
+  const { keywords, addNumber, addSpecialChar, includeSpaces } = requestBody;
 
   if (!keywords || keywords.trim().length === 0) {
     throw new Error('Keywords are required');
   }
 
   console.log('Generating passphrases for keywords:', keywords);
-  console.log('Options:', { addNumber, addSpecialChar });
+  console.log('Options:', { addNumber, addSpecialChar, includeSpaces });
 
   try {
     const response = await fetch('/api/generate-passphrases', {
@@ -31,6 +32,7 @@ export async function generatePassphrases(requestBody: RequestBody): Promise<str
         keywords: keywords.trim(),
         addNumber,
         addSpecialChar,
+        includeSpaces,
       }),
     });
 
@@ -51,12 +53,12 @@ export async function generatePassphrases(requestBody: RequestBody): Promise<str
     
     // If there's an issue with the API, fall back to mock implementation
     console.log('Falling back to mock implementation...');
-    const mockPassphrases = generateMockPassphrases(keywords, addNumber, addSpecialChar);
+    const mockPassphrases = generateMockPassphrases(keywords, addNumber, addSpecialChar, includeSpaces);
     return mockPassphrases;
   }
 }
 
-function generateMockPassphrases(keywords: string, addNumber: boolean, addSpecialChar: boolean): string[] {
+function generateMockPassphrases(keywords: string, addNumber: boolean, addSpecialChar: boolean, includeSpaces: boolean): string[] {
   const keywordLower = keywords.toLowerCase();
   
   // Generate more creative mock passphrases based on keywords
@@ -81,9 +83,14 @@ function generateMockPassphrases(keywords: string, addNumber: boolean, addSpecia
   return selectedTemplates.map(template => {
     let passphrase = template.charAt(0).toUpperCase() + template.slice(1);
     
+    // Remove spaces if includeSpaces is false
+    if (!includeSpaces) {
+      passphrase = passphrase.replace(/\s+/g, '');
+    }
+    
     if (addNumber) {
       const randomNumber = Math.floor(Math.random() * 90) + 10; // 10-99
-      passphrase += ` ${randomNumber}`;
+      passphrase += includeSpaces ? ` ${randomNumber}` : randomNumber;
     }
     
     if (addSpecialChar) {

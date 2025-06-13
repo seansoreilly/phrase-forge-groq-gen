@@ -12,6 +12,7 @@ const Index = () => {
   const [keywords, setKeywords] = useState("");
   const [addNumber, setAddNumber] = useState(true);
   const [addSpecialChar, setAddSpecialChar] = useState(true);
+  const [includeSpaces, setIncludeSpaces] = useState(true);
   const [passphrases, setPassphrases] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
@@ -24,6 +25,9 @@ const Index = () => {
     const savedAddSpecialChar = localStorage.getItem(
       "musicPassphrase_addSpecialChar"
     );
+    const savedIncludeSpaces = localStorage.getItem(
+      "musicPassphrase_includeSpaces"
+    );
 
     if (savedKeywords !== null) {
       setKeywords(savedKeywords);
@@ -33,6 +37,9 @@ const Index = () => {
     }
     if (savedAddSpecialChar !== null) {
       setAddSpecialChar(JSON.parse(savedAddSpecialChar));
+    }
+    if (savedIncludeSpaces !== null) {
+      setIncludeSpaces(JSON.parse(savedIncludeSpaces));
     }
   }, []);
 
@@ -57,6 +64,14 @@ const Index = () => {
     );
   }, [addSpecialChar]);
 
+  // Save includeSpaces to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem(
+      "musicPassphrase_includeSpaces",
+      JSON.stringify(includeSpaces)
+    );
+  }, [includeSpaces]);
+
   const handleGeneratePassphrases = async () => {
     if (!keywords.trim()) {
       toast({
@@ -73,6 +88,7 @@ const Index = () => {
         keywords: keywords.trim(),
         addNumber,
         addSpecialChar,
+        includeSpaces,
       });
 
       setPassphrases(newPassphrases);
@@ -172,7 +188,7 @@ const Index = () => {
               </div>
 
               {/* Options */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div className="flex items-center space-x-3">
                   <Switch
                     id="add-number"
@@ -200,6 +216,21 @@ const Index = () => {
                     className="text-sm font-medium text-gray-700"
                   >
                     Add special character (e.g., !)
+                  </Label>
+                </div>
+
+                <div className="flex items-center space-x-3">
+                  <Switch
+                    id="include-spaces"
+                    checked={includeSpaces}
+                    onCheckedChange={setIncludeSpaces}
+                    disabled={loading}
+                  />
+                  <Label
+                    htmlFor="include-spaces"
+                    className="text-sm font-medium text-gray-700"
+                  >
+                    Include spaces
                   </Label>
                 </div>
               </div>

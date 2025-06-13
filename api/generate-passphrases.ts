@@ -9,6 +9,7 @@ interface RequestBody {
   keywords: string;
   addNumber: boolean;
   addSpecialChar: boolean;
+  includeSpaces: boolean;
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -31,7 +32,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { keywords, addNumber, addSpecialChar }: RequestBody = req.body;
+    const { keywords, addNumber, addSpecialChar, includeSpaces }: RequestBody = req.body;
 
     if (!keywords || keywords.trim().length === 0) {
       return res.status(400).json({ error: 'Keywords are required' });
@@ -103,9 +104,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       // Ensure first letter is capitalized and rest are lowercase
       processed = processed.charAt(0).toUpperCase() + processed.slice(1).toLowerCase();
       
+      // Remove spaces if includeSpaces is false
+      if (!includeSpaces) {
+        processed = processed.replace(/\s+/g, '');
+      }
+      
       if (addNumber) {
         const randomNumber = Math.floor(Math.random() * 90) + 10; // 10-99
-        processed += ` ${randomNumber}`;
+        processed += includeSpaces ? ` ${randomNumber}` : randomNumber;
       }
       
       if (addSpecialChar) {
