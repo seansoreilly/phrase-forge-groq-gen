@@ -235,9 +235,10 @@ const Index = () => {
                   id="keywords"
                   value={keywords}
                   onChange={(e) => setKeywords(e.target.value)}
-                  onKeyPress={handleKeyPress}
+                  // onKeyPress={handleKeyPress}
                   placeholder="Enter music artist (e.g., Taylor Swift, The Beatles)"
-                  className="text-base h-12 border-gray-200 focus:border-purple-500 focus:ring-purple-500"
+                  className="h-14 border-gray-200 focus:border-purple-500 focus:ring-purple-500"
+                  style={{ fontSize: "1.3rem" }}
                   disabled={loading}
                 />
               </div>
