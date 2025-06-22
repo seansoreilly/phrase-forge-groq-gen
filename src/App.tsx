@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-import { track } from "./lib/analytics";
+import { trackPageView, initAnalytics } from "./lib/analytics";
 
 const queryClient = new QueryClient();
 
@@ -17,10 +17,21 @@ const PageTracker = () => {
   const location = useLocation();
 
   useEffect(() => {
-    track("page_view", {
-      page_path: location.pathname + location.search,
-    });
+    trackPageView(location.pathname + location.search);
   }, [location]);
+
+  return null;
+};
+
+const AnalyticsInitializer = () => {
+  useEffect(() => {
+    // Initialize analytics after a short delay to ensure gtag is loaded
+    const timer = setTimeout(() => {
+      initAnalytics();
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return null;
 };
@@ -31,6 +42,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <AnalyticsInitializer />
         <PageTracker />
         <Routes>
           <Route path="/" element={<Index />} />

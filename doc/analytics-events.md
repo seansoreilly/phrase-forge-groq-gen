@@ -27,7 +27,7 @@ Event names use `snake_case` as per Google Analytics recommendations.
 - **Description**: Fired when a user clicks one of the generation option toggles.
 - **Trigger**: `Index.tsx`, on the `onCheckedChange` handler for the `Switch` components.
 - **Parameters**:
-  - `option_name` (string): The name of the toggled option (`'numbers'` or `'symbols'`).
+  - `option_name` (string): The name of the toggled option (`'numbers'`, `'symbols'`, or `'spaces'`).
   - `option_state` (boolean): The new state of the toggle (`true` for on, `false` for off).
 
 ## 4. `api_error`
@@ -36,3 +36,11 @@ Event names use `snake_case` as per Google Analytics recommendations.
 - **Trigger**: `Index.tsx`, in the `onError` callback of the `useMutation` hook.
 - **Parameters**:
   - `error_message` (string): The error message returned from the API or client-side error.
+
+## 5. `page_view`
+
+- **Description**: Fired when a user navigates to a new page (automatically tracked).
+- **Trigger**: `App.tsx`, in the `PageTracker` component on route changes.
+- **Parameters**:
+  - `page_path` (string): The current page path including search parameters.
+  - `page_title` (string): The page title (defaults to document.title).

@@ -281,7 +281,13 @@ const Index = () => {
                   <Switch
                     id="include-spaces"
                     checked={includeSpaces}
-                    onCheckedChange={setIncludeSpaces}
+                    onCheckedChange={(checked) => {
+                      setIncludeSpaces(checked);
+                      track("toggle_option", {
+                        option_name: "spaces",
+                        option_state: checked,
+                      });
+                    }}
                     disabled={mutation.isPending}
                     aria-label="Include Spaces"
                   />
